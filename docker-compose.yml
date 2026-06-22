@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  micro-cardapio:
+    build: .
+    container_name: micro-cardapio
+    ports:
+      - "9522:9522"
+    env_file:
+      - .env
+    restart: always

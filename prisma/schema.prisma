@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+provider = "mysql"
+url      = env("DATABASE_URL")
+}
+
+model Restaurante {
+  id        Int      @id @default(autoincrement()) @map("restaurante_id")
+  nome      String   @map("restaurante_nome")
+  descricao String?  @map("restaurante_descricao")
+  endereco  String   @map("restaurante_endereco")
+  status    Int      @default(1) @map("restaurante_status")
+
+  // Relacionamento: Um restaurante tem vários pratos (cardápio)
+  pratos    Prato[]
+
+  @@map("restaurante") // Nome exato da tabela no script do professor
+}
+
+model CategoriaPrato {
+  id     Int     @id @default(autoincrement()) @map("categoria_prato_id")
+  nome   String  @map("categoria_prato_nome")
+  status Int?    @default(1) @map("categoria_prato_status")
+
+  // Relacionamento
+  pratos Prato[]
+
+  @@map("categoria_prato")
+}
+
+model Prato {
+  id              Int      @id @default(autoincrement()) @map("prato_id")
+  nome            String   @map("prato_nome")
+  descricao       String?  @map("prato_descricao")
+  preco           Float    @map("prato_preco")
+  disponibilidade Int?     @default(1) @map("prato_disponibilidade")
+  status          Int?     @default(1) @map("prato_status")
+  
+  // Chaves estrangeiras com os nomes exatos do script
+  categoriaId     Int      @map("categoria_prato_id")
+  restauranteId   Int      @map("restaurante_id")
+
+  // Relacionamentos
+  categoria       CategoriaPrato @relation(fields: [categoriaId], references: [id])
+  restaurante     Restaurante    @relation(fields: [restauranteId], references: [id])
+
+  @@map("prato")
+}

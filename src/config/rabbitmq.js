@@ -7,7 +7,7 @@ class RabbitMQService {
     // Lê do .env (RABBITMQ_URL). Em casa normalmente é amqp://localhost;
     // quando mudares para o servidor da faculdade, basta trocar no .env,
     // sem mexer em código.
-    this.url = process.env.RABBITMQ_URL || 'amqp://localhost';
+    this.url = process.env.RABBITMQ_URL || 'amqp://admin:admin@10.136.38.50:5672';
   }
 
   async conectar() {

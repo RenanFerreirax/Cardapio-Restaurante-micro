@@ -8,7 +8,9 @@ const rabbitmq = require('../config/rabbitmq');
 function filtrarCamposRestaurante(dados = {}) {
   const permitido = {};
   if (dados.nome !== undefined) permitido.nome = dados.nome;
+  if (dados.restaurante_categoria !== undefined) permitido.restaurante_categoria = dados.restaurante_categoria;
   if (dados.descricao !== undefined) permitido.descricao = dados.descricao;
+  if (dados.restaurante_telefone !== undefined) permitido.restaurante_telefone = dados.restaurante_telefone;
   if (dados.endereco !== undefined) permitido.endereco = dados.endereco;
   if (dados.status !== undefined) permitido.status = Number(dados.status);
   return permitido;
@@ -36,7 +38,9 @@ class RestaurantesService {
     const novoRestaurante = await prisma.restaurante.create({
       data: {
         nome: dados.nome,
+        restaurante_categoria: dados.restaurante_categoria,
         descricao: dados.descricao,
+        restaurante_telefone: dados.restaurante_telefone,
         endereco: dados.endereco,
         status: dados.status !== undefined ? Number(dados.status) : 1
       }
@@ -63,7 +67,9 @@ class RestaurantesService {
       where: { id: parseInt(id) },
       data: {
         nome: dados.nome,
+        restaurante_categoria: dados.restaurante_categoria,
         descricao: dados.descricao,
+        restaurante_telefone: dados.restaurante_telefone,
         endereco: dados.endereco,
         status: Number(dados.status)
       }

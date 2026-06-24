@@ -66,7 +66,7 @@ server.on('uncaughtException', (req, res, route, erro) => {
 });
 
 // Inicia o servidor
-const PORTA = process.env.PORT || 3000;
+const PORTA = process.env.PORT || 9522;
 
 server.listen(PORTA, async () => {
   console.log(`🚀 Servidor a rodar em: http://localhost:${PORTA}`);

@@ -3,49 +3,45 @@ generator client {
 }
 
 datasource db {
-provider = "mysql"
-url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Restaurante {
-  id        Int      @id @default(autoincrement()) @map("restaurante_id")
-  nome      String   @map("restaurante_nome")
-  descricao String?  @map("restaurante_descricao")
-  endereco  String   @map("restaurante_endereco")
-  status    Int      @default(1) @map("restaurante_status")
+  id                    Int     @id @default(autoincrement()) @map("restaurante_id")
+  nome                  String  @map("restaurante_nome") @db.VarChar(100)
+  restaurante_categoria String? @db.VarChar(200)
+  descricao             String? @map("restaurante_descricao") @db.VarChar(300)
+  restaurante_telefone  String? @db.VarChar(20)
+  endereco              String? @map("restaurante_endereco") @db.VarChar(300)
+  status                Int?    @map("restaurante_status")
+  pratos                Prato[]
 
-  // Relacionamento: Um restaurante tem vários pratos (cardápio)
-  pratos    Prato[]
-
-  @@map("restaurante") // Nome exato da tabela no script do professor
+  @@map("restaurante")
 }
 
 model CategoriaPrato {
   id     Int     @id @default(autoincrement()) @map("categoria_prato_id")
-  nome   String  @map("categoria_prato_nome")
-  status Int?    @default(1) @map("categoria_prato_status")
-
-  // Relacionamento
+  nome   String  @map("categoria_prato_nome") @db.VarChar(300)
+  status Int?    @map("categoria_prato_status")
   pratos Prato[]
 
   @@map("categoria_prato")
 }
 
 model Prato {
-  id              Int      @id @default(autoincrement()) @map("prato_id")
-  nome            String   @map("prato_nome")
-  descricao       String?  @map("prato_descricao")
-  preco           Float    @map("prato_preco")
-  disponibilidade Int?     @default(1) @map("prato_disponibilidade")
-  status          Int?     @default(1) @map("prato_status")
-  
-  // Chaves estrangeiras com os nomes exatos do script
-  categoriaId     Int      @map("categoria_prato_id")
-  restauranteId   Int      @map("restaurante_id")
+  id              Int            @id @default(autoincrement()) @map("prato_id")
+  nome            String         @map("prato_nome") @db.VarChar(100)
+  descricao       String?        @map("prato_descricao") @db.Text
+  preco           Decimal        @map("prato_preco") @db.Decimal(10, 2)
+  disponibilidade Int?           @map("prato_disponibilidade") @db.TinyInt
+  status          Int?           @map("prato_status")
+  categoriaId     Int            @map("categoria_prato_id")
+  restauranteId   Int            @map("restaurante_id")
+  categoria       CategoriaPrato @relation(fields: [categoriaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_prato_categoria_prato1")
+  restaurante     Restaurante    @relation(fields: [restauranteId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_prato_restaurante1")
 
-  // Relacionamentos
-  categoria       CategoriaPrato @relation(fields: [categoriaId], references: [id])
-  restaurante     Restaurante    @relation(fields: [restauranteId], references: [id])
-
+  @@index([categoriaId], map: "fk_prato_categoria_prato1_idx")
+  @@index([restauranteId], map: "fk_prato_restaurante1_idx")
   @@map("prato")
 }

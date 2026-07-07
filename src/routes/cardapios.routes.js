@@ -1,15 +1,16 @@
 const cardapiosController = require('../controllers/cardapios.controller');
+const { authenticateToken } = require("./middlewares/authenticateToken");
 
 module.exports = (server) => {
   // Rotas para Categorias de Pratos
-  server.get('/categorias', cardapiosController.listarCategorias);
-  server.post('/categorias', cardapiosController.criarCategoria);
+  server.get('/categorias', authenticateToken,  cardapiosController.listarCategorias);
+  server.post('/categorias', authenticateToken, cardapiosController.criarCategoria);
 
   // Rotas para Pratos (Cardápio)
-  server.get('/restaurantes/:restauranteId/pratos', cardapiosController.listarPorRestaurante);
-  server.get('/pratos/:id', cardapiosController.buscarPratoPorId);
-  server.post('/pratos', cardapiosController.criarPrato);
-  server.put('/pratos/:id', cardapiosController.actualizarPrato);
-  server.patch('/pratos/:id', cardapiosController.actualizarPrato);
-  server.del('/pratos/:id', cardapiosController.excluirPrato);
+  server.get('/restaurantes/:restauranteId/pratos', authenticateToken, cardapiosController.listarPorRestaurante);
+  server.get('/pratos/:id', authenticateToken, cardapiosController.buscarPratoPorId);
+  server.post('/pratos', authenticateToken, cardapiosController.criarPrato);
+  server.put('/pratos/:id', authenticateToken, cardapiosController.actualizarPrato);
+  server.patch('/pratos/:id', authenticateToken, cardapiosController.actualizarPrato);
+  server.del('/pratos/:id', authenticateToken, cardapiosController.excluirPrato);
 };

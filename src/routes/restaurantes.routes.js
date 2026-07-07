@@ -1,5 +1,5 @@
 const restaurantesController = require('../controllers/restaurantes.controller');
-const { authenticateToken } = require("./middlewares/authenticateToken");
+const {authenticateToken} = require("../middleware/authenticateToken")
 
 module.exports = (server) => {
   // Rotas para Restaurantes

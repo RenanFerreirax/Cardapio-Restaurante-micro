@@ -17,6 +17,7 @@
     "@prisma/client": "^5.22.0",
     "amqplib": "^2.0.1",
     "dotenv": "^17.4.2",
+    "jsonwebtoken": "^9.0.3",
     "restify": "^11.1.0"
   },
   "devDependencies": {

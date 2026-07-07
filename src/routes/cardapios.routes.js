@@ -1,5 +1,5 @@
 const cardapiosController = require('../controllers/cardapios.controller');
-const { authenticateToken } = require("./middlewares/authenticateToken");
+const {authenticateToken} = require("../middleware/authenticateToken")
 
 module.exports = (server) => {
   // Rotas para Categorias de Pratos
